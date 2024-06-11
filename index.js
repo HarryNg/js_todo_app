@@ -39,14 +39,23 @@ const renderTodoList = () => {
             todoList.splice(index, 1);
             renderTodoList();
         });
-        
+
         const todoDescription = document.createElement('label');
         todoDescription.textContent = todo;
         todoDescription.htmlFor = `task-${index}`;
 
+        const editButton = document.createElement('button');
+        editButton.textContent = 'Edit';
+        editButton.addEventListener('click', () => {
+            const newTodo = prompt('Enter new task');
+            todoList[index] = newTodo;
+            renderTodoList();
+        });
+
         todoItem.appendChild(deleteButton);
         todoItem.appendChild(checkbox);
         todoItem.appendChild(todoDescription);
+        todoItem.appendChild(editButton);
         todoListElement.appendChild(todoItem);
     });
   }
