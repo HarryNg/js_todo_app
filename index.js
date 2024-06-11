@@ -1,8 +1,9 @@
 let todoList = [];
 
 const addTodo = (todo) => {
-  todoList.push(todo);
-  renderTodoList();
+    todoList.push(todo);
+    renderTodoList();
+    updateCounter();
 }
 
 
@@ -38,6 +39,7 @@ const renderTodoList = () => {
         deleteButton.addEventListener('click', () => {
             todoList.splice(index, 1);
             renderTodoList();
+            updateCounter();
         });
 
         const todoDescription = document.createElement('label');
@@ -59,7 +61,11 @@ const renderTodoList = () => {
         todoListElement.appendChild(todoItem);
     });
   }
-  
+const updateCounter = () => {
+    const counter = document.querySelector('#counter');
+    counter.textContent = "Total Todo Items: "+ todoList.length;
+} 
 document.addEventListener('DOMContentLoaded', () => {
     renderTodoList();
+    updateCounter();
 });
