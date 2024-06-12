@@ -83,3 +83,12 @@ input[type="submit"]:hover {
     color: #2c3e50;
     text-align: center;
 }
+
+input[type="search"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: calc(100% - 90px); /* Adjust to fit with the submit button */
+    margin-bottom: 20px;
+}

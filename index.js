@@ -30,10 +30,10 @@ addTodoForm.addEventListener('submit', (event) => {
 });
 
 
-const renderTodoList = () => {
+const renderTodoList = (filterTodos = todoList) => {
     const todoListElement = document.querySelector('#todoList');
     todoListElement.innerHTML = '';
-    todoList.forEach((todo,index) => {
+    filterTodos.forEach((todo,index) => {
         const todoItem = document.createElement('li');
 
         const checkbox = document.createElement('input');
@@ -83,8 +83,20 @@ const updateCounter = () => {
     const counter = document.querySelector('#counter');
     counter.textContent = "Total Todo Items: "+ todoList.length;
 } 
+
+const filterTodos = (query) => {
+    const filteredTodos = todoList.filter((todo) => todo.text.toLowerCase().includes(query.toLowerCase()));
+    renderTodoList(filteredTodos);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     loadTodoList();
     renderTodoList();
     updateCounter();
+});
+
+const searchForm = document.querySelector('#search');
+searchForm.addEventListener('input', (event) => {
+    const query = event.target.value;
+    filterTodos(query);
 });
