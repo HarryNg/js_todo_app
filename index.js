@@ -1,7 +1,19 @@
 let todoList = [];
 
+const loadTodoList = () => {
+    const todoListString = localStorage.getItem('todoList');
+    if (todoListString) {
+        todoList = JSON.parse(todoListString);
+    }
+}
+
+const saveTodoList = () => {
+    localStorage.setItem('todoList', JSON.stringify(todoList));
+}
+
 const addTodo = (todo) => {
     todoList.push({ text: todo, completed: false });
+    saveTodoList();
     renderTodoList();
     updateCounter();
 }
@@ -29,6 +41,7 @@ const renderTodoList = () => {
         checkbox.checked = todo.completed;
         checkbox.addEventListener('change', (event) => {
             todo.completed = event.target.checked;
+            saveTodoList();
             renderTodoList();
         });
 
@@ -36,6 +49,7 @@ const renderTodoList = () => {
         deleteButton.textContent = 'Delete';
         deleteButton.addEventListener('click', () => {
             todoList.splice(index, 1);
+            saveTodoList();
             renderTodoList();
             updateCounter();
         });
@@ -53,6 +67,7 @@ const renderTodoList = () => {
             const newTodo = prompt('Enter new task', todo.text);
             if (newTodo !== null) {
                 todoList[index].text = newTodo;
+                saveTodoList();
                 renderTodoList();
             }
         });
@@ -69,6 +84,7 @@ const updateCounter = () => {
     counter.textContent = "Total Todo Items: "+ todoList.length;
 } 
 document.addEventListener('DOMContentLoaded', () => {
+    loadTodoList();
     renderTodoList();
     updateCounter();
 });
