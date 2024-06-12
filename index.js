@@ -1,7 +1,7 @@
 let todoList = [];
 
 const addTodo = (todo) => {
-    todoList.push(todo);
+    todoList.push({ text: todo, completed: false });
     renderTodoList();
     updateCounter();
 }
@@ -26,12 +26,10 @@ const renderTodoList = () => {
 
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
+        checkbox.checked = todo.completed;
         checkbox.addEventListener('change', (event) => {
-            if (event.target.checked) {
-            todoItem.style.textDecoration = 'line-through';
-            } else {
-            todoItem.style.textDecoration = 'none';
-            }
+            todo.completed = event.target.checked;
+            renderTodoList();
         });
 
         const deleteButton = document.createElement('button');
@@ -43,20 +41,25 @@ const renderTodoList = () => {
         });
 
         const todoDescription = document.createElement('label');
-        todoDescription.textContent = todo;
+        todoDescription.textContent = todo.text;
         todoDescription.htmlFor = `task-${index}`;
+        if (todo.completed) {
+            todoDescription.style.textDecoration = 'line-through';
+        }
 
         const editButton = document.createElement('button');
         editButton.textContent = 'Edit';
         editButton.addEventListener('click', () => {
-            const newTodo = prompt('Enter new task');
-            todoList[index] = newTodo;
-            renderTodoList();
+            const newTodo = prompt('Enter new task', todo.text);
+            if (newTodo !== null) {
+                todoList[index].text = newTodo;
+                renderTodoList();
+            }
         });
 
-        todoItem.appendChild(deleteButton);
         todoItem.appendChild(checkbox);
         todoItem.appendChild(todoDescription);
+        todoItem.appendChild(deleteButton);
         todoItem.appendChild(editButton);
         todoListElement.appendChild(todoItem);
     });
